@@ -1,0 +1,115 @@
+<div class="row">
+<div class="span12">      		
+	   		
+	<div class="widget ">
+		<div class="widget-header">
+			<i class="icon-plus"></i>
+ 			<h3>编辑传感器</h3>
+		</div> <!-- /widget-header -->
+
+		<div class="widget-content">
+		
+		<div class="alert alert-danger hide" role="alert"></div>
+
+		<form id="add-task" action="{{urlfor "SensorController.Edit"}}" method="post" class="form-horizontal">
+
+		<input type="hidden" name="id" value="{{.sensor.Id}}" />
+			<fieldset>
+				
+				<div class="control-group">											
+					<label class="control-label" for="task_name">传感器名称</label>
+					<div class="controls">
+						<input type="text" name="sensor_name" class="span6" id="sensor_name"  value="{{.sensor.SensorName}}">
+					</div>				
+				</div>
+								
+				<div class="control-group">											
+					<label class="control-label" for="description">通道名称</label>
+					<div class="controls">
+							<input type="text" name="channel_name" class="span6" id="channel_name" value="{{.sensor.ChannelName}}">
+					</div> <!-- /controls -->				
+				</div> <!-- /control-group -->
+
+					<div class="control-group">											
+					<label class="control-label" for="timeout">小数位数</label>
+					<div class="controls">
+						<input type="text" name="decimal_place" class="span1" id="decimal_place" value="{{.sensor.DecimalPlace}}"> 位
+					</div> <!-- /controls -->				
+				</div>
+				
+				<div class="control-group">											
+					<label class="control-label" for="group_id">分组号</label>
+					<div class="controls">
+						<select name="group_id" id="group_id" >
+                      
+							<option value="0" >分组号</option>
+							{{$A :=.aa}}		
+							{{range $k, $v := .groups}}
+							<option value="{{$v.GroupNumber}}"  {{if eq $A $v.GroupNumber}} selected="selected" {{end}}>{{$v.GroupNumber}}</option>
+							{{end}}
+						</select>
+					</div>				
+				</div>
+
+				<div class="control-group">											
+					<label class="control-label" for="description">限定字段</label>
+					<div class="controls">
+							<input type="text" name="limit_field" class="span6" id="limit_field" value="{{.sensor.LimitField}}">
+					</div> <!-- /controls -->				
+				</div> 
+				
+				<div class="control-group">											
+					<label class="control-label" for="description">限定字段值</label>
+					<div class="controls">
+							<input type="text" name="item_data" class="span6" id="item_data" value="{{.sensor.ItemData}}">
+					</div> <!-- /controls -->				
+				</div> 
+				
+					<div class="control-group">											
+					<label class="control-label" for="description">目标字段</label>
+					<div class="controls">
+							<input type="text" name="target_field" class="span6" id="target_field" value="{{.sensor.TargetField}}">
+					</div> <!-- /controls -->				
+				</div> 
+				
+					<div class="control-group">											
+					<label class="control-label" for="description">数据库表</label>
+					<div class="controls">
+							<input type="text" name="name_table" class="span6" id="name_table" value="{{.sensor.NameTable}}">
+					</div> <!-- /controls -->				
+				</div> 
+			
+				<br />
+				
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary">保 存</button> 
+					<a href="{{urlfor "SensorController.List"}}" class="btn">返 回</a>
+				</div> <!-- /form-actions -->
+			</fieldset>
+		</form>
+
+		</div>
+	</div>
+</div>
+</div>
+
+<script>
+$(function () {
+	$("form").submit(function () {
+
+		$(".alert").hide();
+		$("button[type='submit']").attr('disabled', true);
+		$.post('{{urlfor "SensorController.Edit"}}', $(this).serialize(), function (out) {
+			if (out.status == 0) {
+				window.location.href = '{{urlfor "SensorController.List"}}';
+			} else {
+				$(".alert").text(out.msg);
+				$(".alert").show();
+				$("button[type='submit']").attr('disabled', false);
+			}
+		}, "json");
+		return false;
+	});
+
+});
+</script>

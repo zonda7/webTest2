@@ -1,0 +1,72 @@
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+
+                <div class="row">
+                    <div class="span12">
+
+                        <div class="widget">
+                            <div class="widget-header">
+                                <i class="icon-th-list"></i>
+                                <h3>实用工具</h3>
+                            </div> <!-- /widget-header -->
+
+                            <div class="widget-content">
+
+
+                        <form id="fm_restart" method="post"  style="display:inline-block;" >
+                          
+                            <input id="restart_btn" type="button" value="开始抓包" class="btn btn-danger">
+                            <input id="stop_btn" type="button" value="停止抓包" class="btn btn-danger">
+
+                        </form>
+                  
+                    </div>
+
+  </div>
+</div>
+</div>
+     
+
+
+
+
+  <script>
+      jQuery(document).ready(function() {
+          jQuery("#restart_btn").click(function() {
+              if(confirm("确认是否重启？")) {
+                  <!--alert("确认");-->
+                  //  layer.msg("重启中,请稍等......",{
+          //  time:60000,
+            //shadeClose:false,
+            //icon:16,
+            //shade:.5
+          //})
+
+                      $.post('/tool?id=0',{},function (argument) {
+                        
+                        
+                      })
+               } else {
+
+                  <!--alert("取消");-->
+               }
+
+          });
+
+          jQuery("#stop_btn").click(function() {
+              if(confirm("确认是否重启？")) {
+                  <!--alert("确认");-->
+ 
+                      $.post('/tool?id=1',{},function (argument) {
+                        
+                        
+                      })
+               } else {
+
+                  <!--alert("取消");-->
+               }
+
+          });
+      });
+    </script>
+
+      

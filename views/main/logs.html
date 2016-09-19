@@ -1,0 +1,49 @@
+<div class="row">
+	<div class="span6">
+
+		<!-- /widget -->
+		
+		<div class="widget widget-nopad">
+			<div class="widget-header"> <i class="icon-list-alt"></i>
+				<h3>系统运行日志</h3>
+			</div>
+			<!-- /widget-header -->
+			<div class="widget-content">
+				<ul class="news-items">
+					{{range $k, $v := .paths}}
+					<li>
+					
+					<div class="news-item-detail"> 
+						<a href="/viewlog?path={{$v}}" class="news-item-title">{{$v}}</a>
+
+					</div>
+					
+					</li>
+					{{end}}
+				</ul>
+			</div>
+			<!-- /widget-content --> 
+		</div>
+		<!-- /widget -->
+		
+	</div>
+	
+	<div class="span6">
+	
+		<div class="widget widget-nopad">
+			<div class="widget-header"> <i class="icon-list-alt"></i>
+				<h3>系统操作日志</h3>
+			</div>
+			<!-- /widget-header -->
+			<div class="widget-content">
+				<ul class="news-items">
+					
+				</ul>
+			</div>
+			<!-- /widget-content --> 
+		</div>
+		<!-- /widget -->
+	 
+	</div>
+	
+</div>

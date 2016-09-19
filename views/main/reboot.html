@@ -1,0 +1,106 @@
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+
+                <div class="row">
+                    <div class="span12">
+
+                        <div class="widget">
+                            <div class="widget-header">
+                                <i class="icon-th-list"></i>
+                                <h3>系统设置</h3>
+                            </div> <!-- /widget-header -->
+
+  <div class="widget-content">
+    
+    <div class="alert alert-danger hide" role="alert"></div>
+
+    <form id="add-task" action="{{urlfor "MainController.Reboot"}}" method="post" class="form-horizontal">
+
+
+
+<div class="control-group">
+          <label class="control-label" for="task_name">设备重启</label>
+          <div class="controls">
+
+
+            <a class="btn btn-info btn-run" id="restart_btn" >
+              <span class="icon-refresh icon-white"></span> 重启
+            </a>
+          </div>
+        </div>
+
+           <div class="control-group">
+          <label class="control-label" for="task_name">远程登录</label>
+          <div class="controls">
+           
+  {{if eq $.remoteis 0}}
+
+
+            <a class="btn btn-danger" href="{{urlfor "MainController.RemoteOpen"}}">
+              <span class="icon-play-circle icon-white"></span> 已停止
+            </a>
+            {{else}}
+            <a class="btn btn-success" href="{{urlfor "MainController.RemoteClose"}}">
+              <span class="icon-ban-circle icon-white"></span> 已开启
+            </a>
+            {{end}}
+
+          </div>
+
+
+
+        </div>         
+            </form>
+                  
+               </div>
+
+  </div>
+</div>
+</div>
+     
+
+  <script>
+      jQuery(document).ready(function() {
+          jQuery("#restart_btn").click(function() {
+              if(confirm("确认是否重启？")) {
+                  <!--alert("确认");-->
+            layer.msg("重启中,请稍等......",{
+            time:60000,
+            shadeClose:false,
+            icon:16,
+            shade:.5
+          })
+
+                      $.post('/reboot?system_type=0',{},function (argument) {
+                    
+                      })
+               } else {
+
+                  <!--alert("取消");-->
+               }
+
+          });
+
+          jQuery("#open_btn").click(function() {
+              if(confirm("确认是否开启远程登录？")) {
+                  <!--alert("确认");-->
+            layer.msg("开启中,请稍等......",{
+            time:60000,
+            shadeClose:false,
+            icon:16,
+            shade:.5
+          })
+
+                      $.post('/reboot?system_type=1',{},function (argument) {
+
+                    
+                      })
+               } else {
+
+                  <!--alert("取消");-->
+               }
+
+          });
+      });
+    </script>
+
+      

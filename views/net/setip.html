@@ -1,0 +1,88 @@
+<div class="row">
+<div class="span12">            
+            
+    <div class="widget ">
+        <div class="widget-header">
+            <i class="icon-plus"></i>
+            <h3>IP配置</h3>
+        </div> <!-- /widget-header -->
+
+        <div class="widget-content">
+        
+        <div class="alert alert-danger hide" role="alert"></div>
+
+        <form id="add-task" action="{{urlfor "NetController.SetIP"}}" method="post" class="form-horizontal">
+            <input type="hidden" name="id" value="{{.group.Id}}" />
+            <fieldset>
+                
+                <div class="control-group">                                         
+                    <label class="control-label" for="group_name">IPv4地址:</label>
+                    <div class="controls">
+                        <input type="text" name="dw_localIp" class="span6" value="{{.ipv4.DwLocalIp}}" id="dw_localIp">
+                    </div>              
+                </div>
+
+                <div class="control-group">                                         
+                    <label class="control-label" for="group_name">子网掩码:</label>
+                    <div class="controls">
+                        <input type="text" name="dw_netMask" class="span6" value="{{.ipv4.DwNetMask}}" id="dw_netMask">
+                    </div>              
+                </div>
+
+                  <div class="control-group">                                         
+                    <label class="control-label" for="group_name">默认网关:</label>
+                    <div class="controls">
+                        <input type="text" name="dw_gateWay" class="span6" value="{{.ipv4.DwGateWay}}" id="dw_gateWay">
+                    </div>              
+                </div>
+                 <div class="control-group">                                         
+                    <label class="control-label" for="group_name">首选DNS:</label>
+                    <div class="controls">
+                        <input type="text" name="dw_firstDns" class="span6" value="{{.ipv4.DwFirstDns}}" id="dw_firstDns">
+                    </div>              
+                </div>
+
+                 <div class="control-group">                                         
+                    <label class="control-label" for="group_name">备选DNS:</label>
+                    <div class="controls">
+                        <input type="text" name="dw_secDns" class="span6" value="{{.ipv4.DwSecDns}}" id="dw_secDns">
+                    </div>              
+                </div>
+
+
+                  
+        
+                <br />
+                
+                    
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">保 存</button> 
+                    
+                </div> <!-- /form-actions -->
+            </fieldset>
+        </form>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+$(function () {
+    $("form").submit(function () {
+        $(".alert").hide();
+        $("button[type='submit']").attr('disabled', true);
+        $.post('{{urlfor "NetController.SetIP"}}', $(this).serialize(), function (out) {
+            if (out.status == 0) {
+                alert("修改成功！")
+                window.location.href = '{{urlfor "NetController.SetIP"}}';
+            } else {
+                $(".alert").text(out.msg);
+                $(".alert").show();
+                $("button[type='submit']").attr('disabled', false);
+            }
+        }, "json");
+        return false;
+    });
+});
+</script>

@@ -1,0 +1,276 @@
+
+<div id="base" class="">
+    
+
+    <div class="main">
+        <div class="main-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+
+                        <div class="widget">
+                            <div class="widget-header">
+                                <i class="icon-th-list"></i>
+                                <h3>网络设置</h3>
+                            </div> <!-- /widget-header -->
+
+                            <div class="widget-content">
+                                <form class="form-horizontal" action="{{urlfor "NetController.Edit"}}" method="post">
+                                    <fieldset>
+                                        <h4>内网配置:</h4>
+                                        <div class="control-group">
+                                            <label class="control-label" for="type_flag">配置类型:</label>
+                                            <div class="controls">
+                                                <select class="form-control" id="type_flag" name="type_flag"
+                                                        onchange="confChange();">
+                                                    <option value="0" {{if eq .net.TypeFlag 0}} selected="selected" {{end}}>选择类型</option>
+                                                    <option value="1" {{if eq .net.TypeFlag 1}} selected="selected" {{end}}>UDP</option>
+                                                    <option value="2" {{if eq .net.TypeFlag 2}} selected="selected"  {{end}}>SQL Server</option>
+                                                    <option value="3" {{if eq .net.TypeFlag 3}} selected="selected" {{end}}>OPC</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                                   <!--1-->
+                                        <div class="udp_div">
+
+                                                 <div class="control-group">
+                                                <label class="control-label" for="db_computer_ip">源主机IP地址:</label>
+                                                <div class="controls">
+                                                    <input type="text" class="span6" name="db_computer_ip" id="db_computer_ip"
+                                                           value="{{.net.DbComputerIp}}">
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="control-group">
+                                                <label class="control-label" for="udp_server_ip">UPD服务IP地址:</label>
+                                                <div class="controls">
+                                                    <input type="text" class="span6"  name="udp_server_ip" id="udp_server_ip" 
+                                                           value="{{.net.UdpServerIp}}">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="udp_server_port">端口号:</label>
+                                                <div class="controls">
+                                                    <input type="text" class="span6" name="udp_server_port" id="udp_server_port"
+                                                             value="{{.net.UdpServerPort}}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <!--2-->
+                                        <div class="db_div">
+                                        
+                                            <div class="control-group">
+                                                <label class="control-label" for="db_computer_ip">源主机IP地址:</label>
+                                                <div class="controls">
+                                                    <input type="text" class="span6" name="db_computer_ip" id="db_computer_ip"
+                                                           value="{{.net.DbComputerIp}}">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="db_database_name">数据库名:</label>
+                                                <div class="controls">
+                                                    <input type="text" class="span6" name="db_database_name" id="db_database_name"
+                                                           value="{{.net.DbDatabaseName}}">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="db_user_name">用户名:</label>
+                                                <div class="controls">
+                                                    <input type="text" class="span6" name="db_user_name" id="db_user_name"
+                                                           value="{{.net.DbUserName}}">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="db_user_password">密码:</label>
+                                                <div class="controls">
+                                                    <input type="password" class="span6" name="db_user_password"
+                                                           id="db_user_password" value="{{.net.DbUserPassword}}">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="db_fetch_interval">取数间隔:</label>
+                                                <div class="controls">
+                                                    <input type="text" name="db_fetch_interval"
+                                                           id="db_fetch_interval"  value="{{.net.DbFetchInterval}}"> 秒
+                                                </div>
+                                            </div>
+                                            <!--<input id="msSqlTestConBtn" class="btn btn-primary" type="button" value="测试连接"-->
+                                               <!--onclick="msSqlTestCon();" style="margin-left:120px;"/>-->
+                                        </div>
+
+
+                                
+                                        <!--3-->
+                                        <div class="opc_div">
+                                            <!--<div class="control-group">-->
+                                                <!--<label class="control-label">OPC:</label>-->
+                                                <!--<div class="controls">-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                            <div class="control-group">
+                                                <label class="control-label" for="opc_computer_ip">源主机IP地址:</label>
+                                                <div class="controls">
+                                                    <input type="text" class="span6" name="opc_computer_ip"
+                                                           id="opc_computer_ip" value="{{.net.OpcComputerIp}}">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label"  for="opc_database_name">数据库名:</label>
+                                                <div class="controls">
+                                                    <input type="text" class="span6" name="opc_database_name"
+                                                           id="opc_database_name" value="{{.net.OpcDatabaseName}}">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="opc_user_name">用户名:</label>
+                                                <div class="controls">
+                                                    <input type="text" class="span6" name="opc_user_name"
+                                                           id="opc_user_name" value="{{.net.OpcUserName}}">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="opc_user_password">密码:</label>
+                                                <div class="controls">
+                                                    <input type="password" class="span6" name="opc_user_password"
+                                                           id="opc_user_password" value="{{.net.OpcUserPassword}}">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="opc_fetch_interval">取数间隔:</label>
+                                                <div class="controls">
+                                                    <input type="text" name="opc_fetch_interval"
+                                                           id="opc_fetch_interval" value="{{.net.OpcFetchInterval}}"> 秒
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                       <h4>外网配置:</h4>   
+
+                                        <!--3-->
+                                        <div class="waln_div">
+                                        
+                                            <div class="control-group">
+                                                <label class="control-label" for="target_udp_ip">目标主机IP地址:</label>
+                                                <div class="controls">
+                                                    <input type="text" class="span6" name="target_udp_ip"
+                                                           id="target_udp_ip" value="{{.net.TargetUdpIp}}">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label"  for="target_udp_ip">端口号:</label>
+                                                <div class="controls">
+                                                    <input type="text" class="span6" name="target_udp_port"
+                                                           id="target_udp_port" value="{{.net.TargetUdpPort}}">
+                                                </div>
+                                        
+                                            </div>
+                                        </div>
+
+                                     
+                                 <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">保 存</button> 
+                    
+                </div>
+
+
+                            </fieldset>
+                            </form>
+
+                            </div>
+
+<script>
+
+    window.onload=function () {
+
+    var id=$("#type_flag").val()
+       switch (id) {
+            case "0"://无
+                 $('.db_div').addClass('hide');
+                 $('.opc_div').addClass('hide');
+                 $('.udp_div').addClass('hide');
+                break;
+            case "1"://UDP            
+                 $('.db_div').addClass('hide');
+                 $('.opc_div').addClass('hide');
+                 $('.udp_div').removeClass('hide');
+               
+                break;
+            case "2"://db
+                 $('.udp_div').addClass('hide');
+                 $('.opc_div').addClass('hide');
+                 $('.db_div').removeClass('hide');
+               
+                break;
+
+            case "3":// opc
+                 $('.udp_div').addClass('hide');
+                 $('.db_div').addClass('hide');
+                 $('.opc_div').removeClass('hide');
+           
+                break;
+            default:
+                break;
+        }
+    }
+
+    function confChange() {
+     var id=$("#type_flag").val()
+
+        switch (id) {
+            case "0"://无
+                 $('.db_div').addClass('hide');
+                 $('.opc_div').addClass('hide');
+                 $('.udp_div').addClass('hide');
+                break;
+
+                break;
+            case "1"://UDP            
+                 $('.db_div').addClass('hide');
+                 $('.opc_div').addClass('hide');
+                 $('.udp_div').removeClass('hide');
+               
+                break;
+            case "2"://db
+                 $('.udp_div').addClass('hide');
+                 $('.opc_div').addClass('hide');
+                 $('.db_div').removeClass('hide');
+               
+                break;
+
+            case "3":// opc
+                 $('.udp_div').addClass('hide');
+                 $('.db_div').addClass('hide');        
+                 $('.opc_div').removeClass('hide');
+           
+                break;
+
+        }
+    }
+
+
+    $(function () {
+    $("form").submit(function () {
+      
+        $("button[type='submit']").attr('disabled', true);
+        $.post('{{urlfor "NetController.Edit"}}', $(this).serialize(), function (out) {
+            if (out.status == 0) {
+                alert("修改成功！")
+                window.location.href = '{{urlfor "NetController.Edit"}}';
+            } else {
+                $(".alert").text(out.msg);
+                $(".alert").show();
+                $("button[type='submit']").attr('disabled', false);
+            }
+        }, "json");
+        return false;
+    });
+});
+
+</script>
+

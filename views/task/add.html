@@ -1,0 +1,161 @@
+<script type="text/javascript" src="/static/js/layer/layer.js"></script>
+
+<div class="row">
+<div class="span12">      		
+	   		
+	<div class="widget ">
+		<div class="widget-header">
+			<i class="icon-plus"></i>
+ 			<h3>诊断工具</h3>
+		</div> <!-- /widget-header -->
+
+		<div class="widget-content">
+		
+		<div class="alert alert-danger hide" role="alert"></div>
+
+		<form id="add-task" action="{{urlfor "TaskController.Add"}}" method="post" class="form-horizontal">
+			<fieldset>
+
+						<div class="control-group">											
+					<label class="control-label">诊断类型</label>
+					<div class="controls">
+						<label class="radio inline">
+							<input type="radio" value="0" id="task_name" name="task_name"  checked> 网口抓包
+						</label>
+						<label class="radio inline">
+							<input type="radio" value="1" id="task_name" name="task_name" > ping
+						</label>
+						<label class="radio inline">
+							<input type="radio" value="2" id="task_name" name="task_name" > 自定义
+						</label>
+					</div>	<!-- /controls -->			
+				</div> <!-- /control-group -->
+				
+				<div class="ping_div">
+
+				<div class="control-group">											
+					<label class="control-label" for="command">命令脚本</label>
+					<div class="controls">
+						<textarea name="command" class="span6" id="command" rows="6"></textarea>
+					</div> <!-- /controls -->				
+				</div> <!-- /control-group -->
+
+				</div>
+
+
+	     <div class="tcpdump_div">
+
+				<div class="control-group">											
+					<label class="control-label" for="command">过滤IP</label>
+					<div class="controls">
+							<input type="text" name="ip" class="span6" id="ip" >
+					</div> <!-- /controls -->				
+				</div> <!-- /control-group -->
+
+
+				<div class="control-group">											
+					<label class="control-label" for="command">过滤端口</label>
+					<div class="controls">
+						<input type="text" name="port" class="span1" id="port">
+						<span class="help-block">不设置的话，默认监测网口所有包</span>		
+					</div> <!-- /controls -->			
+
+				</div> <!-- /control-group -->
+
+
+				</div>
+
+		
+				<div class="control-group">											
+					<label class="control-label" for="timeout">超时设置</label>
+					<div class="controls">
+						<input type="text" name="timeout" class="span1" id="timeout" value="10"> 秒
+						
+					</div> <!-- /controls -->	
+
+				</div> <!-- /control-group -->
+				
+		
+				<br />
+				
+					
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary">执 行</button> 
+							<a href="{{urlfor "TaskController.ViewLog"}}" class="btn">返 回</a>
+				</div> <!-- /form-actions -->
+			</fieldset>
+		</form>
+
+		</div>
+	</div>
+</div>
+</div>
+
+<script>
+
+  window.onload=function () {
+
+
+    var id=$("#task_name").val()
+       switch (id) {
+            case "0"://无
+                 $('.ping_div').addClass('hide');
+
+                break;
+            default:
+                break;
+        }
+    }
+
+$(function () {
+	$("form").submit(function () {
+		var t = parseInt($("#timeout").val())
+
+     layer.msg("执行中......  <span id='timer'>"+t+"</span>",{
+            time:60000,
+            shadeClose:false,
+            icon:16,
+            shade:.5
+          });
+     	var $timer = $("#timer");
+     	var timer = setInterval(function(){
+     		if(t >= 0){
+     			$timer.html(t--);
+     		}else{
+     	clearInterval(timer);
+     		}
+
+     		
+     	},1000);
+
+		$(".alert").hide();
+		$("button[type='submit']").attr('disabled', true);
+
+		$.post('{{urlfor "TaskController.Add"}}', $(this).serialize(), function (out) {
+			if (out.status == 0) {
+				window.location.href = '{{urlfor "TaskController.ViewLog"}}';
+			} else {
+				$(".alert").text(out.msg);
+				$(".alert").show();
+				$("button[type='submit']").attr('disabled', false);
+			}
+		}, "json");
+		return false;
+	});
+
+});
+
+	$("input[name='task_name']").click(function () {
+		if ($(this).val() > 0) {
+			$('.tcpdump_div').addClass('hide');
+			$('.ping_div').removeClass('hide');
+
+		} else {
+			$('.ping_div').addClass('hide');
+			$('.tcpdump_div').removeClass('hide');
+		}
+	});
+
+
+
+</script>
